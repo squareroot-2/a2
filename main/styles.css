@@ -1,0 +1,255 @@
+@font-face {
+	font-family: 'Latin Modern Math';
+	src: url("fonts/latin-modern-math/latinmodern-math.otf");
+}
+
+/* https://colorhunt.co/palette/ffbe91ffddb0fffce1cfebff */
+
+* {
+	box-sizing: border-box;
+	font-family: 'Latin Modern Math', Arial, sans-serif;
+	
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	
+	background-color: blue;
+	
+	overflow-x: hidden;
+}
+
+/* Section */
+
+section {
+	display: block;
+	
+	width: 100vw;
+	height: 100vh;
+	
+	background-image: url("images/wallpaper.png");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+
+	background-color: rgba(0, 0, 0, 0.196);
+	background-blend-mode: darken;
+	
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.hiddenSection
+{
+	display: none;
+}
+
+/* Loading screen */
+
+#loading-page
+{
+	position: fixed;
+	
+	z-index: 2;
+	
+	display: flex;
+	
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	
+	user-select: none;
+	
+	background-color: black;
+	background-image: none;
+	color: white;
+	
+	top: 0;
+	left: 0;
+	
+	transition: all 2s;
+	
+	transition-timing-function: ease;
+}
+
+#loading-page h2 {
+	text-align: center;
+}
+
+/* Loading transition buttons */
+
+.loading_button {
+	height: 80%;
+	width: 15%;
+	
+	color: white;
+	background-color: rgba(255, 0, 0, 0.579);
+	border: 0px solid transparent;
+	border-radius: 10%/20%;
+
+	font-size: 1.2rem;
+
+	transition: all 0.1s;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.loading_button:hover {
+	color: rgb(255, 222, 222);
+	background-color: rgba(255, 77, 77, 0.579);
+	border: 3px solid rgba(255, 151, 151, 0.514);
+	border-radius: 10%/20%;
+
+	font-size: 1.25rem;
+}
+
+/* Front page section */
+
+#front-page {
+	background-image: url("images/hespullinghiscockout.png");
+	
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	
+	background-color: rgba(0, 0, 0, 0.486);
+	background-blend-mode: darken;
+	
+	color: white;
+	
+	justify-content: center;
+	align-items: center;
+	
+	flex-flow: column nowrap;
+	
+	user-select: none;
+}
+
+#loading-page > h1, #front-page > h1 {
+	font-size: 25rem;
+	margin: 0;
+	font-family: serif;
+	height: 15rem;
+	transform: translateY(-10rem);
+}
+
+#loading-page > h2, #front-page > h2 {
+	font-size: 1.7em;
+}
+
+#loading-page > p, #front-page > p {
+	font-size: 1.15rem;
+}
+
+#front-page > button {
+	margin-top: 0.2%;
+	width: 10%;
+	height: 3%;
+	
+	border-radius: 5% / 10%;
+	
+	font-family: Arial;
+}
+
+/* Footer page */
+footer {
+	color: white;
+	background-color: black;
+
+	width: 100vw;
+	height: 20vh;
+}
+
+/* Others */
+
+article {
+	background-color: #FFFCE1;
+	
+	height: auto;
+	width: 45vw;
+
+	color: #1c5178;
+
+	border-radius: 2.5%/5%;
+	border: 6px solid #CFEBFF;
+}
+
+.tall-article {
+	height: 80vh;
+	width: 40vw;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+article > h1 {
+	text-indent: 3px;
+}
+
+article > p {
+	padding-left: 4px;
+	width: 90%;
+	word-wrap: normal;
+}
+
+#pi-text {
+	word-wrap: break-word;
+	width: 95%;
+}
+
+article > .centered-text {
+	width: 100%;
+	text-align: center;
+	text-indent: 0px;
+}
+
+.diagram_image {
+	width: 30vw;
+	height: auto;
+}
+
+.image-text-diagram {
+	display: flex;
+	
+	flex-flow: column nowrap;
+	
+	gap: 0.25rem;
+	
+	justify-content: center;
+	align-items: center;
+}
+.image-text-diagram > p {
+	width: 100%;
+	font-size: 100%;
+}
+
+/* Breakpoints */
+
+@media (max-width: 800px) {
+	section {
+		flex-direction: column-reverse;
+	}
+
+	article {
+		height: 40vh;
+		width: 80vw;
+	}
+
+	article > p {
+		font-size: 0.8rem;
+	}
+
+	.tall-article {
+		font-size: 1rem;
+		height: 80vh;
+		width: 80vw;
+	}
+}
