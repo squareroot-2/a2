@@ -16,8 +16,8 @@
 	<body>
 		<section id="loading-page">
 			<h1> π </h1>
-			<h2> Fill the aura of an <span id="rainbow-text"> endless amount of </span> digits? </h2>
-			<p> CLICK to proceed.. </p>
+			<h2 id="aura-loading"> Fill the aura of an <span id="rainbow-text"> endless amount of </span> digits? </h2>
+			<p> <b>CLICK</b> to proceed.. </p>
 		</section>
 	
 		<section id="front-page">
@@ -64,44 +64,59 @@
 			<div id="page-2" class="hiddenSection">
 				<section>
 					<div class="row-flex-thing">
-						<h1> History of Pi </h1>
-						
+						<div>
+							<h1> History of Pi, summarised </h1>
+							<p id="history-pageScore" class="centered-text"> Test</p>
+						</div>
+
 						<div class="column-flex-thing">
-							<article class="side-article">
-								<br>
-								<h1> Ancient Times (BCE) </h1>
-								<p> 
-									During this period, pi was discovered with its approximations only being as close to knowing 1 or 2 decimal places.
-									Pi was actually discovered 4000 years ago with proof of ancient tablets from 1900BC to 1600BC by Egypt and Babylon.
-									Tablets are to have shown for it to be approximately equal to 3 or 3.125 by the Babylons and equal to 3.1605 for Egypt in a slightly younger tablet.
-								</p>
-							</article>
+							<button id="go-left"> Left </button>
 
-							<article class="side-article">
-								<br>
-								<h1> Polygon Approximation </h1>
-								<p> 
-									The first recorded proof of rigorous calculation of pi was from <a href="https://en.wikipedia.org/wiki/Archimedes">Archimedes</a>.
-									He found the area of a polygon of a size bigger than a unit circle and that of a polygon smaller than a unit circle and then
-									used its two values to find a range of which pi may lie, giving a range of pi being 3.1408 to 3.1429. It is believed Archimedes is the cause of the popular approximation of pi to be 22/7
-									In the years to have come, many mathematicians from ancient China and Greek have used a similar method, managing to make the approximation as close as 9 decimal places,
-									with Zu Chongzi having used a regular 24-576 gon and done lengthy calculations to discover pi up to 9 decimal places.
-								</p>
-							</article>
+							<div id="history-articles">
+								<article class="side-article">
+									<br>
+									<h1> Ancient Times (BCE) </h1>
+									<p> 
+										During this period, pi was discovered with its approximations only being as close to knowing 1 or 2 decimal places.
+										Pi was actually discovered 4000 years ago with proof of ancient tablets from 1900BC to 1600BC by Egypt and Babylon.
+										Tablets are to have shown for it to be approximately equal to 3 or 3.125 by the Babylons and equal to 3.1605 for Egypt in a slightly younger tablet.
+									</p>
+								</article>
 
-							<article class="side-article">
-								<br>
-								<h1> Pre-modern Era </h1>
-								<p>
-									Up to the 17th century, the most digits to have been discovered was around 38 digits. Until the discovery of approximating
-									pi through using a infinite series, summing terms infinitely to get an exact value of pi. Starting from the 16th century, 
-									mathematicians discovered infinite series formulas that could get the exact values of pi. Starting in 1699, the number of
-									digits discovered jumped up to 71 digits, shattering the previous record of 39 by two times using the old polygon method.
-									From this period of time, many mathematicians had formulated infinite series to converge to pi as fast as possible with around 707 digits discovered by 1873.
-									Not only that, pi was discovered to be irrational by Swiss scientist Johann Heinrich Lambert in 1768 and transcendental by Ferdinand von Lindemann in 1882.
-									Euler popularised the usage of pi being 3.14, with his work being popular and Euler being widely known throughout Europe.
-								</p>
-							</article>
+								<article class="side-article hiddenSection">
+									<br>
+									<h1> Polygon Approximation </h1>
+									<p> 
+										The first recorded proof of rigorous calculation of pi was from <a href="https://en.wikipedia.org/wiki/Archimedes">Archimedes</a>.
+										He found the area of a polygon of a size bigger than a unit circle and that of a polygon smaller than a unit circle and then
+										used its two values to find a range of which pi may lie, giving a range of pi being 3.1408 to 3.1429. It is believed Archimedes is the cause of the popular approximation of pi to be 22/7
+										In the years to have come, many mathematicians from ancient China and Greek have used a similar method, managing to make the approximation as close as 9 decimal places,
+										with Zu Chongzi having used a regular 24-576 gon and done lengthy calculations to discover pi up to 9 decimal places.
+									</p>
+								</article>
+
+								<article class="side-article hiddenSection">
+									<br>
+									<h1> Infinite Series </h1>
+									<p>
+										Up to the 17th century, the most digits to have been discovered was around 38 digits. However, infinite summation series
+										had been discovered and mathematicians discovered infinite series formulas that could get the exact values of pi. 
+										Starting in 1699, the number of digits discovered jumped up to 71 digits, shattering the previous record of 39 by 
+										two times using the old polygon method and eventually reaching upwards to 700 digits.
+									</p>
+								</article>
+
+								<article class="side-article hiddenSection">
+									<br>
+									<h1> Irrationality of Pi </h1>
+									<p>
+										Pi was discovered to be irrational by Swiss scientist Johann Heinrich Lambert in 1768 and transcendental by Ferdinand von Lindemann in 1882.
+										Euler popularised the usage of pi being 3.14, with his work being popular and Euler being widely known throughout Europe.
+									</p>
+								</article>
+							</div>
+
+							<button id="go-right"> Right </button>
 						</div>
 					</div>
 				</section>
@@ -109,21 +124,102 @@
 				<section class="row-flex-thing"> 
 					<h1>MCQ Quiz</h1>
 
-					<fieldset>
-						<legend>1. What is the capital of Japan?</legend>
-						<input type="radio" name="q1" value="Beijing"> Beijing
-						<input type="radio" name="q1" value="Seoul"> Seoul
-						<input type="radio" name="q1" value="Tokyo"> Tokyo
-						<input type="radio" name="q1" value="Bangkok"> Bangkok
-					</fieldset>
+					<div id="questions">
+						<fieldset>
+							<legend>1. What is the first five truncated digits of Pi?</legend>
+							
+							<label>
+								<input type="radio" name="q1" value="3.1415"> 
+								3.1415
+							</label>
 
-					<fieldset>
-						<legend>2. Which of these is a primary color?</legend>
-						<input type="radio" name="q2" value="Cyan"> Cyan
-						<input type="radio" name="q2" value="Orange"> Orange
-						<input type="radio" name="q2" value="Purple"> Purple
-						<input type="radio" name="q2" value="Red"> Red
-					</fieldset>
+							<label>
+								<input type="radio" name="q1" value="2.71"> 
+								2.71
+							</label>
+
+							<label>
+								<input type="radio" name="q1" value="3.1416"> 
+								3.1416
+							</label>
+							
+							<label>
+								<input type="radio" name="q1" value="3.1516"> 
+								3.1516
+							</label>
+						</fieldset>
+
+						<fieldset>
+							<legend>2. Who popularised the Greek letter pi to represent Pi?</legend>
+							
+							<label>
+								<input type="radio" name="q2" value="Zu Chongzi"> 
+								Zu Chongzi
+							</label>
+
+							<label>
+								<input type="radio" name="q2" value="Johann Heinrich Lambert"> 
+								Johann Heinrich Lambert
+							</label>
+							
+							<label>
+								<input type="radio" name="q2" value="Leonard Euler"> 
+								Leonard Euler
+							</label>
+
+							<label>
+								<input type="radio" name="q2" value="Red from Angry Birds"> 
+								Red from Angry Birds
+							</label>
+						</fieldset>
+
+						<fieldset>
+							<legend>3. When was Pi discovered?</legend>
+							<label>
+								<input type="radio" name="q3" value="1900BC"> 
+								1900BC
+							</label>
+
+							<label>
+								<input type="radio" name="q3" value="2026"> 
+								2026
+							</label>
+
+							<label>
+								<input type="radio" name="q3" value="29BC"> 
+								29BC
+							</label>
+
+							<label>
+								<input type="radio" name="q3" value="375BC"> 
+								375BC
+							</label>
+						</fieldset>
+
+						<fieldset>
+							<legend>4. How 	</legend>
+							
+							<label>
+								<input type="radio" name="q4" value="Zu Chongzi"> 
+								Zu Chongzi
+							</label>
+							
+							<label>
+								<input type="radio" name="q4" value="Johann Heinrich Lambert"> 
+								Johann Heinrich Lambert
+							</label>
+							
+							<label>
+								<input type="radio" name="q4" value="Leonard Euler"> 
+								Leonard Euler
+							</label>
+
+							<label>
+								<input type="radio" name="q4" value="Red from Angry Birds"> 
+								Red from Angry Birds
+							</label>
+						</fieldset>
+					</div>
 
 					<button id="btnSubmit">Submit Quiz</button>
 					<h3 id="scorebox">Not submitted</h3>
@@ -133,9 +229,25 @@
 
 		<footer class="hiddenSection">
 			<div>
+				<h2> Sources: </h2>
+
+				<p> 
+					<a target="_blank" href="https://en.wikipedia.org/wiki/Pi#History "> 
+						Wikipedia's Pi History Section 
+					</a> 
+				</p>
+
+				<p> 
+					<a target="_blank" href="https://www.exploratorium.edu/pi/history-of-pi"> 
+						Exploratorium's History of Pi
+					</a> 
+				</p>
+			</div>
+
+			<div>
 				<p> test test </p>
-				<button id="btnFS">Full Screen</button>
-				<button id="btnWS">Exit Full Screen</button>
+				<button id="btnFS">Full screen</button>
+				<button id="btnWS">Exit full screen</button>
 			</div>
 
 			<div>

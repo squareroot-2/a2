@@ -1,3 +1,5 @@
+// Page selection
+
 const page_selection = document.querySelector("#page-selection");
 
 const main_page = document.querySelector("#main-page");
@@ -9,8 +11,20 @@ loading_page.addEventListener("click", prepare);
 
 const footer = document.querySelector("footer");
 
-let colorInterval = null;
+const h2_loading_text = document.querySelector("#aura-loading");
+const random_text = [
+	'Fill the aura of an <span id="rainbow-text"> endless amount of </span> digits?',
+	'Ready to learn to be a <span id="rainbow-text">PI</span>-oneer..?',
+	'<span id="rainbow-text"> 3.14159265</span>...',
+	'Still discovering digits of <span id="rainbow-text">pi</span>...',
+	'Usually, <span id="rainbow-text">pies are made as a circle</span>.',
+	'Still counting <span id="rainbow-text"> digits of pi...</span>',
+	'Face my <span id="rainbow-text"> Irrationality!</span>'
+]
 
+let random_num = Math.floor( Math.random() * random_text.length );
+h2_loading_text.innerHTML = random_text.at(random_num);
+ 
 function prepare() {
 	if (!loaded)
 	{
@@ -64,7 +78,15 @@ function prepare() {
 			menu_button.textContent = "";
 			menu_button.classList.add('loading_button');
 			menu_button.style.opacity = 0;
-			menu_button.onclick = resetElements;
+			menu_button.onclick = function() {
+				window.scrollTo({
+					top: 0,
+					left: 0,
+					behavior: 'smooth'
+				});
+				
+				setTimeout(resetElements, 500);
+			};
 			loading_page.appendChild(menu_button);
 
 			let menu_icon = document.createElement("div");
@@ -132,12 +154,14 @@ function resetElements()
 			child.classList.add("hiddenSection");
 		}
 	}
-	
-	window.scrollTo({
-		top: 0,
-		left: 0,
-		behavior: 'smooth'
-	});
+
+	for (i = 0; i<questions.childElementCount; i++)
+	{
+		var answer = document.querySelector(`input[name='q${i+1}']:checked`);
+		if (answer) answer.checked = false;
+	}
+
+	scorebox.textContent = "Not submitted"
 }
 
 function showMenuElements(page)
@@ -145,8 +169,63 @@ function showMenuElements(page)
 	resetElements();
 
 	page.classList.remove("hiddenSection");
+	
+	page.scrollIntoView({ 
+		behavior: "smooth"
+	});
 }
 
+// History page 2
+
+let id = 0;
+
+const history_articles = document.querySelector("#history-articles");
+const history_pageScore = document.querySelector("#history-pageScore");
+
+const left_button = document.querySelector("#go-left");
+const right_button = document.querySelector("#go-right");
+
+history_pageScore.textContent = `Page: ${id+1}/${history_articles.childElementCount}`;
+
+left_button.addEventListener('click', function()
+{
+	for (const child of history_articles.children)
+	{
+		if (!child.classList.contains("hiddenSection"))
+		{
+			child.classList.add("hiddenSection");
+		}
+	}
+
+	id--;
+	
+	if (id >= history_articles.childElementCount) id = 0;
+	else if (id < 0) id = history_articles.childElementCount-1;
+
+	history_pageScore.textContent = `Page: ${id+1}/${history_articles.childElementCount}`;
+	history_articles.children[id].classList.remove("hiddenSection");
+})
+
+right_button.addEventListener('click', function()
+{
+	for (const child of history_articles.children)
+	{
+		if (!child.classList.contains("hiddenSection"))
+		{
+			child.classList.add("hiddenSection");
+		}
+	}
+
+	id++;
+	
+	if (id >= history_articles.childElementCount) id = 0;
+	else if (id < 0) id = history_articles.childElementCount-1;
+
+	history_pageScore.textContent = `Page: ${id+1}/${history_articles.childElementCount}`;
+	history_articles.children[id].classList.remove("hiddenSection");
+})
+
+// Loading page rainbow text
 const rainbow_text = document.querySelector("#rainbow-text");
 let hue = 0;
 
@@ -158,8 +237,10 @@ function switch_color()
 	if (hue>=360) hue=0;
 }
 
+let colorInterval = null;
 colorInterval = setInterval(switch_color, 10)
 
+// Full screen
 const btnFS=document.querySelector("#btnFS");
 const btnWS=document.querySelector("#btnWS");
 
@@ -196,4 +277,28 @@ function exitFullscreen() {
 
 	btnFS.style.display = "block";
 	btnWS.style.display = "none";
+}
+
+// Quiz
+const questions=document.querySelector("#questions");
+
+const btnSubmit=document.querySelector("#btnSubmit");
+btnSubmit.addEventListener("click",CheckAns);
+
+const scorebox=document.querySelector("#scorebox");
+score=0;
+
+var answers=["3.1415", "Leonard Euler", "1900BC" , "Leonard Euler"]
+function CheckAns()
+{
+	score = 0;
+	
+	for (i = 0; i<questions.childElementCount; i++)
+	{
+		var answer = document.querySelector(`input[name='q${i+1}']:checked`);
+		if (!answer) continue;
+		if(answer.value==answers[i])score++;
+	}
+
+	scorebox.textContent = `Score: ${score}/${answers.length}`
 }

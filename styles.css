@@ -107,6 +107,8 @@ section {
 	border-radius: 10%/20%;
 
 	font-size: 1.25rem;
+
+	transform: scale(1.05);
 }
 
 /* Front page section */
@@ -189,11 +191,14 @@ article {
 
 	border-radius: 2.5%/5%;
 	border: 6px solid #CFEBFF;
+
+	box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
 }
 
 .tall-article {
-	height: 80vh;
-	width: 40vw;
+	padding: 20px;
+	height: auto;
+	width: 60vw;
 
 	display: flex;
 	flex-direction: column;
@@ -201,6 +206,57 @@ article {
 	align-items: center;
 }
 
+article > h1 {
+	text-indent: 6px;
+}
+
+article > h2 {
+	padding-left: 3px;
+}
+
+article > p {
+	padding-left: 4px;
+	width: 90%;
+	word-wrap: normal;
+}
+
+.centered-text {
+	width: 100%;
+	text-align: center;
+	text-indent: 0px;
+}
+
+/* PAGE 1 -------- */
+
+.diagram_image {
+	width: 30vw;
+	height: auto;
+}
+
+.image-text-diagram {
+	display: flex;
+	
+	flex-flow: column nowrap;
+	
+	gap: 0.25rem;
+	
+	justify-content: center;
+	align-items: center;
+}
+
+.image-text-diagram > p {
+	width: 100%;
+	font-size: 100%;
+}
+
+#pi-text {
+	word-wrap: break-word;
+	width: 95%;
+}
+
+/* PAGE 2------------------------------*/
+
+/* Selection thing */
 .side-article {
 	height: 80vh;
 	width: 30vw;
@@ -228,49 +284,72 @@ article {
 	align-items: center;
 }
 
-article > h1 {
-	text-indent: 6px;
+#go-left, #go-right {
+	height: 10vh;
+	width: 10vh;
+
+	color: rgba(0,0,0,0);
+
+	background-image: url("images/retry.png");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+
+	border: 3px solid #c8e8ff;
+	border-radius: 25%;
 }
 
-article > h2 {
-	padding-left: 3px;
+#go-left:hover, #go-right:hover {
+	transform: scale(1.05);
+
+	transition: all 0.15s;
 }
 
-article > p {
-	padding-left: 4px;
-	width: 90%;
-	word-wrap: normal;
-}
-
-#pi-text {
-	word-wrap: break-word;
-	width: 95%;
-}
-
-article > .centered-text {
-	width: 100%;
-	text-align: center;
-	text-indent: 0px;
-}
-
-.diagram_image {
-	width: 30vw;
-	height: auto;
-}
-
-.image-text-diagram {
+/* History questions */
+#questions
+{
 	display: flex;
-	
-	flex-flow: column nowrap;
-	
-	gap: 0.25rem;
-	
-	justify-content: center;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+
+	width: 90vw;
+	height: auto;
+
+	background-color: white;
+	border: 3px solid black;
+	border-radius: 2.5%/5%;
+}
+
+#questions > fieldset
+{
+	width: 75vw;
+	padding: 10px;
+
+	display: flex;
+	justify-content: space-around;
 	align-items: center;
 }
-.image-text-diagram > p {
-	width: 100%;
-	font-size: 100%;
+
+label {
+	background-color: rgb(202, 202, 255);
+	border: 3px solid rgb(113, 99, 143);
+	padding: 2px;
+}
+
+label:hover, #btnSubmit:hover {
+	transform: scale(1.05);
+	transition: all 0.1s;
+}
+
+#btnSubmit {
+	color: white;
+
+	background-color: rgb(176, 71, 71);
+	border: 3px solid rgb(120, 0, 0);
+
+	font-size: 1.25rem;
+	padding: 2px;
 }
 
 /* Breakpoints */
@@ -293,5 +372,9 @@ article > .centered-text {
 		font-size: 1rem;
 		height: 80vh;
 		width: 80vw;
+	}
+
+	.side-article {
+		width: 60vw;
 	}
 }
