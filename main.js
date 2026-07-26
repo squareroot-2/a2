@@ -6,8 +6,8 @@ const main_page = document.querySelector("#main-page");
 const page_2 = document.querySelector("#page-2");
 const page_3 = document.querySelector("#page-3");
 
-const pagebutton_text = ["About", "History", "Notable Formulas"]
-const pages = [main_page, page_2, page_3];
+const pagebutton_text = ["About", "History", "Notable Formulas", "Games"]
+const pages = [main_page, page_2, page_3, page_3];
 
 const loading_page = document.querySelector("#loading-page");
 let loaded = false;
@@ -53,6 +53,27 @@ function prepare() {
 
 			loading_page.style.height = "10vh";
 			loading_page.style.width = "45vw";
+
+			if (window.screen.width < 800)
+			{
+				loading_page.style.width = "90vw";
+			}
+
+			window.addEventListener("resize", function()
+			{
+				if (window.screen.width < 800)
+				{
+					loading_page.style.width = "90vw";
+				}
+				else
+				{
+					loading_page.style.width = "45vw";
+				}
+
+				let width_vw = loading_page.style.width.substr(0,2);
+				loading_page.style.left = (100 - width_vw) / 2 + "vw";
+				loading_page.style.top = "1.75vh";
+			});
 
 			loading_page.style.borderRadius = "5% / 35%";
 			
@@ -212,6 +233,9 @@ function resetElements()
 	for (i = 0; i<questions.childElementCount; i++)
 	{
 		var answer = document.querySelector(`input[name='q${i+1}']:checked`);
+		
+		questions.children[i].style = "";
+
 		if (answer) answer.checked = false;
 	}
 
@@ -346,21 +370,37 @@ const btnSubmit=document.querySelector("#btnSubmit");
 btnSubmit.addEventListener("click",CheckAns);
 
 const scorebox=document.querySelector("#scorebox");
-score=0;
 
 var answers=["3.1415", "Leonard Euler", "1900BC" , "1 inscribed polygon and 1 circumscribed polygon"]
 function CheckAns()
 {
 	score = 0;
+	not_answered = 0;
 	
 	for (i = 0; i<questions.childElementCount; i++)
 	{
 		var answer = document.querySelector(`input[name='q${i+1}']:checked`);
-		if (!answer) continue;
-		if(answer.value==answers[i])score++;
+		if (!answer) 
+		{
+			questions.children[i].style.borderColor = "white";
+			not_answered++;
+			continue;
+		}
+
+		if(answer.value==answers[i])
+		{
+			questions.children[i].style.borderColor = "lime";
+			score++;
+		}
+		else
+		{
+			questions.children[i].style.borderColor = "red";
+		}
 	}
 
-	scorebox.textContent = `Score: ${score}/${answers.length}`
+	if (not_answered == answers.length) scorebox.textContent = 'Answer the questions!';
+	else if (not_answered >= 1) scorebox.textContent = `Score: ${score}/${answers.length}, Empty: ${not_answered}/${answers.length}`
+	else scorebox.textContent = `Score: ${score}/${answers.length}`
 }
 
 // Document 
@@ -382,3 +422,16 @@ document.addEventListener("scroll", function(){
 		child.style.backgroundPosition = `50% calc(50% + ${window.scrollY}px - ${ (i+1) * 100}vh)`;
 	}
 })
+
+let linkButton1 = document.querySelector("#link-1");
+let linkButton2 = document.querySelector("#link-2");
+
+linkButton1.addEventListener("click", function()
+{
+	window.open('https://www.youtube.com/watch?v=YokKp3pwVFc','_blank');
+});
+
+linkButton2.addEventListener("click", function()
+{
+	window.open('https://en.wikipedia.org/wiki/Euler%27s_formula','_blank');
+});

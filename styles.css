@@ -88,7 +88,9 @@ section {
 
 .loading_button {
 	height: 80%;
-	width: 15%;
+	width: auto;
+
+	aspect-ratio: 1/1;
 	
 	color: white;
 	background-color: rgba(255, 0, 0, 0.579);
@@ -123,7 +125,7 @@ section {
 .hamburger_elements {
 	display: block;
 
-	width: 30%;
+	width: 23%;
 }
 
 .hamburger_menu {
@@ -131,7 +133,7 @@ section {
 	justify-content: space-between;
 	align-items: center;
 
-	width: 50%;
+	width: 60%;
 	height: 100%;
 }
 
@@ -335,17 +337,6 @@ article > p {
 	transform: scale(1.05);
 }
 
-/* PAGE 3------------------------------*/
-
-.white-bg {
-	padding: 3px;
-	background-color: rgb(255, 248, 237);
-
-	border: 3px solid rgb(72, 71, 71);
-
-	box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
-}
-
 /* History questions */
 #questions
 {
@@ -419,6 +410,38 @@ label:hover, #btnSubmit:hover {
 	font-size: 0.7rem;
 }
 
+/* PAGE 3------------------------------*/
+
+article > button {
+	padding: 3px;
+	margin: 10px;
+
+	color: black;
+	background-color: rgb(255, 201, 201);
+	border: 0px solid transparent;
+	border-radius: 10%/20%;
+
+	transition: 0.125s all;
+}
+
+article > button:hover {
+	color: rgb(255, 222, 222);
+	background-color: rgba(255, 77, 77, 0.579);
+	border: 3px solid rgba(255, 151, 151, 0.514);
+	border-radius: 10%/20%;
+
+	transform: scale(1.05);
+}
+
+.white-bg {
+	padding: 3px;
+	background-color: rgb(255, 248, 237);
+
+	border: 3px solid rgb(72, 71, 71);
+
+	box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
+}
+
 /* Breakpoints */
 
 @media (max-width: 800px) {
@@ -427,7 +450,7 @@ label:hover, #btnSubmit:hover {
 	}
 
 	article {
-		height: 40vh;
+		height: auto;
 		width: 80vw;
 	}
 
@@ -470,8 +493,10 @@ label:hover, #btnSubmit:hover {
 		display: none;
 		flex-direction: column;
 
-		width: 25%;
-		height: 20%;
+		width: 40%;
+		height: 25%;
+
+		gap: 3%;
 
 		position: fixed;
 		top: 13%;
