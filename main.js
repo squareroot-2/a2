@@ -439,220 +439,131 @@ linkButton2.addEventListener("click", function()
 
 // GAMEEEEEE
 
-// W:900, H:450
+const circle_detect = document.querySelector("#click_input");
+const gameBeat = document.querySelector(".game_beat");
 
-const game_canvas = document.querySelector("#game");
-const gm_ctx = game_canvas.getContext("2d");
+const pi = "31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
 
-const pi = "55555" //"31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
+let index_pi = 0;
 
-let keypress_time = performance.now();
-let keypress_type = "";
+const min_speed = 800;
+let anim_Time = min_speed;	
+gameBeat.style.animationDuration = `${anim_Time/1000}s`;
 
-let mistakes = 0; 
-let presses = 0;
-
-// Stats
-let num = 0;
-let combo = 0;
-let highest_combo = 0;
-
-// COOL STUFF
-let RV = (Math.random() * 5) + 50;
-let TV = performance.now();
-let SOV = 0;
-
-function update_canva()
+function game_Update()
 {
-	// Clear all
-	gm_ctx.clearRect(0,0, game_canvas.width, game_canvas.height);
-
-	//// Background
-
-	// Create gradient
-	const grad = gm_ctx.createRadialGradient(
-		(game_canvas.width/2), // x pos of circle start
-		(game_canvas.height/2), // y pos of circle start
-		200, // radius of circle start
-		(game_canvas.width/2), // x pos of circle end
-		(game_canvas.height/2), // x pos of circle end
-		800 // radius of circle end
-	);
-
-	grad.addColorStop(0,"#cd85c9");
-	grad.addColorStop(1,"#aa7ebc");
-
-	// Fill rectangle with gradient
-	gm_ctx.fillStyle = grad;
-	gm_ctx.fillRect(
-		0,
-		0,
-		game_canvas.width,
-		game_canvas.height
-	);
-
-	gm_ctx.beginPath();
-
-	// Set start-point
-
-	gm_ctx.moveTo(
-		0, 
-		(game_canvas.height/2)
-	);
-
-	const thing = 100;
-	
-	if ( ((performance.now() - TV) / 1000) > 0.05) 
-	{
-		RV = (Math.random() * 5) + 50;
-		TV = performance.now();
-		SOV++;
-	}
-	
-	for (let i = 0; i < thing; i++)
-	{
-		gm_ctx.lineTo(
-			( (i+1)/thing ) * game_canvas.width, 
-			(game_canvas.height/2) + Math.sin( ((i+1) / 2 * thing) + (SOV*0.05)) * RV
-		);
-	}
-
-	gm_ctx.stroke();
-
-	//// GAMEPLAY
-
-	// Box
-
-	let rect_stroke = "#000000";
-	let rect_color = "#8e7575";
-	let combo_color = "#f7f9ff"
-	
-	if ( ((performance.now() - keypress_time) / 1000) < 0.125) 
-	{
-		// SUCCESSFUL PRESS -- PRESS CORRECT KEY
-		if (keypress_type == "success") 
-		{
-			rect_color = "#bcffba", combo_color = "#046101";
-		}
-
-		// FAILURE PRESS -- MESSED UP COMBO
-		else if (keypress_type == "fail") 
-		{
-			rect_color = "#ffb2b2", combo_color = "#6b1111";
-		}
-	} 
-	else 
-	{
-		rect_color = "#8e7575";
-		combo_color = "#063d06";
-	}
-
-	// STROKE
-	gm_ctx.strokeStyle = rect_stroke;
-	gm_ctx.lineWidth = 3;
-
-	// FILL
-	gm_ctx.fillStyle = rect_color;
-
-	// DRAW
-	let size = [100, 120+20];
-
-	gm_ctx.strokeRect(
-		(game_canvas.width/2) - (size[0]/2),
-		(game_canvas.height/2 + 300) - (size[1]/2), 
-		size[0],
-		size[1]
-	);
-
-	gm_ctx.fillRect(
-		(game_canvas.width/2) - (size[0]/2),
-		(game_canvas.height/2 + 300) - (size[1]/2), 
-		size[0],
-		size[1]
-	);
-	
-	// Text
-	gm_ctx.fillStyle = combo_color;
-	gm_ctx.font = '120px Latin Modern Math';
-
-	var textString = pi.substring(num).split("").join(" ");
-
-	gm_ctx.fillText(
-		textString,
-		(game_canvas.width/2) - (gm_ctx.measureText("3").width / 2),
-		(game_canvas.height)/2 - 300
-	);
-
-	gm_ctx.fillStyle = combo_color;
-	gm_ctx.font = '30px Arial';
-
-	// STATS
-	let text = `Combo: ${combo}`;
-	gm_ctx.fillText(
-		text,
-		(game_canvas.width/2) - (gm_ctx.measureText(text).width / 2),
-		(game_canvas.height/2) + 40
-	);
-
-	gm_ctx.fillStyle = combo_color;
-	gm_ctx.font = '30px Arial';
-
-	if (combo >= highest_combo) highest_combo = combo;
-
-	text = `Highest Combo: ${highest_combo}`;
-	gm_ctx.fillText(
-		text,
-		(game_canvas.width/2) - (gm_ctx.measureText(text).width / 2),
-		(game_canvas.height/2)
-	);
-
-	let accuracy = 100;
-	if (presses>0) accuracy = 100 * ( (presses-mistakes) /presses);
-	accuracy = Math.round(accuracy * 100) / 100
-
-	text = `Accuracy: ${accuracy}%`;
-	gm_ctx.fillText(
-		text,
-		(game_canvas.width/2) - (gm_ctx.measureText(text).width / 2),
-		(game_canvas.height/2) - 40
-	);
-
-	// New frame
-	requestAnimationFrame(update_canva);
-}
-
-let lon = [0,1,2,3,4,5,6,7,8,9]
-document.addEventListener("keypress", function(event){
-	// Ignore if not on game page
 	if (game_page.classList.contains("hiddenSection")) return;
 
-	if (lon.includes( Number(event.key) ))
-	{
-		if (event.key == pi[num])
-		{
-			num++;
-			combo++;
-			keypress_type = "success";
-		}
-		else
-		{
-			combo = 0;
-			keypress_type = "fail";
-			mistakes++;
-		}
+	if (!hit) misses++;
+	hit = false;
 
-		presses++;
-		keypress_time = performance.now();
-	}
-	else if (event.key == 'r')
+	console.log("New beat going!");
+	
+	// Set new animation time
+
+	let key_distance = 10;
+	if (index_pi > 0) key_distance = Math.abs(Number(pi[index_pi]) - Number(pi[index_pi-1]));
+
+	anim_Time = min_speed + (100 * key_distance);
+	gameBeat.style.animationDuration = `${anim_Time/1000}s`;
+	gameBeat.style.opacity = 1;
+
+	gameBeat.classList.add("animation_play");
+	gameBeat.textContent = pi[index_pi];
+
+	index_pi++;
+	index_pi = index_pi % pi.length;
+
+	gameScoreboard.textContent = `score:${index_pi-misses-1}/${index_pi-1}`;
+
+	setTimeout(function() 
 	{
-		keypress_type = "";
-		mistakes = 0; 
-		presses = 0;
-		num = 0;
-		combo = 0;
-		highest_combo = 0;
+		gameBeat.classList.remove("animation_play");
+	}, anim_Time+50);
+
+	setTimeout(function(){
+		game_Update();
+	}, anim_Time+100);
+}
+
+function remove_button_style()
+{
+	circle_detect.style = "";
+}
+
+const gameScoreboard = document.querySelector("#game_scoreboard");
+const hitIndicator = document.querySelector("#hitIndicator");
+
+let misses = 0;
+let hit = true;
+
+lon = ['0','1','2','3','4','5','6','7','8','9'];
+document.addEventListener("keydown", function(event){
+	if (event.key == 'p') game_Update();
+	if (!lon.includes(event.key)) return;
+	if (gameBeat.style.opacity == 0) return;
+
+	hit = true;
+	gameBeat.style.opacity = 0;
+	circle_detect.textContent = event.key;
+	circle_detect.style.backgroundColor = "red";
+	setTimeout(remove_button_style, 100);
+
+	let gameBeat_moment = window.getComputedStyle(gameBeat);
+	let clickbeat_Pos = window.getComputedStyle(circle_detect);
+	
+	let gl = Number(gameBeat_moment.left.slice(0, -2));
+	let cl = Number(clickbeat_Pos.left.slice(0, -2));
+
+	let distance = Math.abs(gl-cl);
+	console.log("Distance: " + distance);
+
+	let hitIndicate = "";
+	
+	let circle_size = circle_detect.clientWidth;
+
+	// GODLY
+	if (distance < (circle_size/45))
+	{
+		hitIndicate = "GODLY!";
 	}
+
+	// PERFECT
+	else if (distance < (circle_size/5))
+	{
+		hitIndicate = "PERFECT!";
+	}
+
+	// GREAT
+	else if (distance < (circle_size/2))
+	{
+		hitIndicate = "GREAT!";
+	}
+
+	// GOOD
+	else if (distance < (circle_size/2) + (circle_size/4))
+	{
+		hitIndicate = "GOOD!";
+	}
+
+	// BAD
+	else if (distance < circle_size + (circle_size/4))
+	{
+		hitIndicate = "BAD!";
+	}
+
+	// MISS
+	else
+	{
+		misses++;
+		hitIndicate = "MISS!";
+	}
+
+	hitIndicator.textContent = hitIndicate;
+	hitIndicator.classList.add("animation_play");
+
+	setTimeout(function()
+	{
+		hitIndicator.classList.remove("animation_play")
+	}, 600);	
 });
-
-update_canva();
