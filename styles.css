@@ -17,7 +17,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 	
-	background-color: rgb(255, 255, 255);
+	background-color: rgb(0, 0, 0);
 	
 	overflow-x: hidden;
 }
@@ -33,14 +33,18 @@ section {
 	background-image: url("images/wallpaper.png");
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-size: 100% 100%;
+	background-size: 100% 110%;
 
-	background-color: rgba(0, 0, 0, 0.196);
+	background-color: rgba(0,0,0, 0.47);
 	background-blend-mode: darken;
 	
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+
+	z-index: -3;
+
+	transition: background-position 0.005s;
 }
 
 .hiddenSection
@@ -109,6 +113,26 @@ section {
 	font-size: 1.25rem;
 
 	transform: scale(1.05);
+}
+
+/* Hamburger Menu */
+#hamburger {
+	display: none;
+}
+
+.hamburger_elements {
+	display: block;
+
+	width: 30%;
+}
+
+.hamburger_menu {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	width: 50%;
+	height: 100%;
 }
 
 /* Front page section */
@@ -247,6 +271,7 @@ article > p {
 .image-text-diagram > p {
 	width: 100%;
 	font-size: 100%;
+	color: black;
 }
 
 #pi-text {
@@ -290,19 +315,35 @@ article > p {
 
 	color: rgba(0,0,0,0);
 
-	background-image: url("images/retry.png");
+	background-image: url("images/arrow.png");
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 
 	border: 3px solid #c8e8ff;
 	border-radius: 25%;
+
+	transition: all 0.15s;
+}
+
+#go-right {
+	background-image: url("images/arrow2.png");
 }
 
 #go-left:hover, #go-right:hover {
+	border: 3px solid #f3faff;
 	transform: scale(1.05);
+}
 
-	transition: all 0.15s;
+/* PAGE 3------------------------------*/
+
+.white-bg {
+	padding: 3px;
+	background-color: rgb(255, 248, 237);
+
+	border: 3px solid rgb(72, 71, 71);
+
+	box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
 }
 
 /* History questions */
@@ -313,22 +354,30 @@ article > p {
 	justify-content: space-around;
 	align-items: center;
 
-	width: 90vw;
+	gap: 10px;
+
+	width: auto;
 	height: auto;
 
-	background-color: white;
-	border: 3px solid black;
+	padding: 15px;
+
+	background-color: rgb(216, 166, 166);
+	border: 3px solid rgb(80, 0, 0);
 	border-radius: 2.5%/5%;
+
+	box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
 }
 
 #questions > fieldset
 {
 	width: 75vw;
-	padding: 10px;
+	padding: 10px 10px;
 
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+
+	border: 2px solid rgb(113, 99, 143);
 }
 
 label {
@@ -348,8 +397,26 @@ label:hover, #btnSubmit:hover {
 	background-color: rgb(176, 71, 71);
 	border: 3px solid rgb(120, 0, 0);
 
+	box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
+
 	font-size: 1.25rem;
-	padding: 2px;
+	padding: 6px 12px;
+}
+
+.fancified {
+	padding: 3px 6px;
+
+	color: white;
+	background-color: rgba(255, 255, 255, 0.12);
+	box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+#scorebox {
+	font-family: Arial, Helvetica, sans-serif;
+	color: white;
+
+	padding: 10px;
+	font-size: 0.7rem;
 }
 
 /* Breakpoints */
@@ -376,5 +443,52 @@ label:hover, #btnSubmit:hover {
 
 	.side-article {
 		width: 60vw;
+	}
+
+	#questions {
+		padding: 3px;
+	}
+
+	label {
+		font-size: 0.7rem;
+	}
+
+	#hamburger {
+		width: 50%;
+		
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+
+	.hamburger_elements {
+		width: 100%;
+		height: 30%;
+	}
+
+	.hamburger_menu {
+		display: none;
+		flex-direction: column;
+
+		width: 25%;
+		height: 20%;
+
+		position: fixed;
+		top: 13%;
+	}
+
+	.diagram_image {
+		width: 60vw;
+		height: auto;
+	}
+
+	.image-text-diagram {
+		width: 80vw;
+	}
+
+	.image-text-diagram > p {
+		width: 100%;
+		font-size: 100%;
+		text-align: center;
 	}
 }

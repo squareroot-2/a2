@@ -4,6 +4,10 @@ const page_selection = document.querySelector("#page-selection");
 
 const main_page = document.querySelector("#main-page");
 const page_2 = document.querySelector("#page-2");
+const page_3 = document.querySelector("#page-3");
+
+const pagebutton_text = ["About", "History", "Notable Formulas"]
+const pages = [main_page, page_2, page_3];
 
 const loading_page = document.querySelector("#loading-page");
 let loaded = false;
@@ -48,8 +52,8 @@ function prepare() {
 			loading_page.style.transition = "all 1.8s";
 
 			loading_page.style.height = "10vh";
-			loading_page.style.width = "40vw";
-			
+			loading_page.style.width = "45vw";
+
 			loading_page.style.borderRadius = "5% / 35%";
 			
 			let width_vw = loading_page.style.width.substr(0,2);
@@ -74,6 +78,7 @@ function prepare() {
 			loading_page.style.flexDirection = "row";
 			loading_page.style.justifyContent = "space-around";
 			
+			// --- MENU BUTTON RESET --- //
 			let menu_button = document.createElement("button");
 			menu_button.textContent = "";
 			menu_button.classList.add('loading_button');
@@ -100,31 +105,80 @@ function prepare() {
 
 			menu_button.appendChild(menu_icon);
 
-			let menu_button_2 = document.createElement("button");
+			// --- MENU BUTTONS --- //
 
-			menu_button_2.textContent = "About Pi";
-			menu_button_2.classList.add('loading_button');
+			let hamburger_menu = document.createElement("div");
+			hamburger_menu.classList.add("hamburger_menu");
 
-			menu_button_2.style.opacity = 0;
+			let menu_buttons = [];
+			for (let i = 0; i < pages.length; i++)
+			{
+				let child = pages[i];
+				let hamburgerElement_button = document.createElement("button");
 
-			menu_button_2.onclick = function() {
-				showMenuElements(main_page);
+				hamburgerElement_button.textContent = pagebutton_text[i];
+				hamburgerElement_button.classList.add('loading_button');
+				hamburgerElement_button.classList.add('hamburger_elements');
+
+				hamburgerElement_button.onclick = function() {
+					showMenuElements(child);
+				};
+
+				hamburger_menu.appendChild(hamburgerElement_button);
+				menu_buttons.push(hamburgerElement_button);
+			}
+
+			hamburger_menu.style.opacity = 0;
+
+			loading_page.append(hamburger_menu);
+
+			// -- HAMBURGGGERR -- //
+
+			let hamburger_button = document.createElement("button");
+			let hamburger_icon = menu_icon.cloneNode(true);
+			
+			hamburger_icon.style.backgroundImage = "url(images/hamburger.png)";
+
+			hamburger_button.classList.add('loading_button');
+			hamburger_button.id = "hamburger";
+
+			hamburger_button.style.opacity = 0;
+
+			let thing = 0;
+			hamburger_button.onclick = function() {
+				if (thing == 0) 
+				{
+					hamburger_menu.style.display = "flex";
+					thing = 1;
+				}
+				else if (thing == 1)
+				{
+					hamburger_menu.style = "";
+					thing = 0;
+				}
+			}
+
+			hamburger_button.append(hamburger_icon);
+			loading_page.append(hamburger_button);
+
+			// --- MENU BUTTON SCROLL UP --- //
+
+			let menu_button_6 = document.createElement("button");
+			menu_button_6.textContent = "";
+			menu_button_6.classList.add('loading_button');
+			menu_button_6.style.opacity = 0;
+			menu_button_6.onclick = function() {
+				window.scrollTo({
+					top: 0,
+					left: 0,
+					behavior: 'smooth'
+				});
 			};
+			loading_page.appendChild(menu_button_6);
 
-			loading_page.appendChild(menu_button_2);
-
-			let menu_button_3 = document.createElement("button");
-
-			menu_button_3.textContent = "History";
-			menu_button_3.classList.add('loading_button');
-
-			menu_button_3.style.opacity = 0;
-
-			menu_button_3.onclick = function() {
-				showMenuElements(page_2);
-			};
-
-			loading_page.appendChild(menu_button_3);
+			let menu_icon_2 = menu_icon.cloneNode(true);
+			menu_icon_2.style.backgroundImage = "url(images/scrollup.png)";
+			menu_button_6.appendChild(menu_icon_2);
 
 		}, 900+1800);
 
@@ -169,6 +223,12 @@ function showMenuElements(page)
 	resetElements();
 
 	page.classList.remove("hiddenSection");
+
+	for (let i = 0; i < page.childElementCount; i++)
+	{
+		let child = page.children[i];
+		child.style.backgroundPosition = '50% 50%';
+	}
 	
 	page.scrollIntoView({ 
 		behavior: "smooth"
@@ -288,7 +348,7 @@ btnSubmit.addEventListener("click",CheckAns);
 const scorebox=document.querySelector("#scorebox");
 score=0;
 
-var answers=["3.1415", "Leonard Euler", "1900BC" , "Leonard Euler"]
+var answers=["3.1415", "Leonard Euler", "1900BC" , "1 inscribed polygon and 1 circumscribed polygon"]
 function CheckAns()
 {
 	score = 0;
@@ -302,3 +362,23 @@ function CheckAns()
 
 	scorebox.textContent = `Score: ${score}/${answers.length}`
 }
+
+// Document 
+document.addEventListener("scroll", function(){
+	let visiblePage;
+	for (const child of page_selection.children) 
+	{
+		if (!child.classList.contains("hiddenSection"))
+		{
+			visiblePage = child;
+		}
+	}
+
+	if (!visiblePage) return;
+
+	for (let i = 0; i < visiblePage.childElementCount; i++)
+	{
+		let child = visiblePage.children[i];
+		child.style.backgroundPosition = `50% calc(50% + ${window.scrollY}px - ${ (i+1) * 100}vh)`;
+	}
+})
