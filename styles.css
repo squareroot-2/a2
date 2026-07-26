@@ -291,6 +291,7 @@ article > p {
 	border-radius: 7.5%/5%;
 }
 
+/* accidentally swapped the names of these.. imagine it as a iceland/greenland thing LOL */
 .row-flex-thing {
 	width: 100vw;
 	height: 100vh;
@@ -440,6 +441,18 @@ article > button:hover {
 	border: 3px solid rgb(72, 71, 71);
 
 	box-shadow: 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* GAME */
+
+canvas {
+	background-color: white;
+	border: 3px solid black;
+
+	width: 80vw;
+	height: auto;
+
+	aspect-ratio: 16/9;
 }
 
 /* Breakpoints */

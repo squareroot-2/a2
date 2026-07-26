@@ -5,9 +5,10 @@ const page_selection = document.querySelector("#page-selection");
 const main_page = document.querySelector("#main-page");
 const page_2 = document.querySelector("#page-2");
 const page_3 = document.querySelector("#page-3");
+const game_page = document.querySelector("#page-4")
 
 const pagebutton_text = ["About", "History", "Notable Formulas", "Games"]
-const pages = [main_page, page_2, page_3, page_3];
+const pages = [main_page, page_2, page_3, game_page];
 
 const loading_page = document.querySelector("#loading-page");
 let loaded = false;
@@ -435,3 +436,223 @@ linkButton2.addEventListener("click", function()
 {
 	window.open('https://en.wikipedia.org/wiki/Euler%27s_formula','_blank');
 });
+
+// GAMEEEEEE
+
+// W:900, H:450
+
+const game_canvas = document.querySelector("#game");
+const gm_ctx = game_canvas.getContext("2d");
+
+const pi = "55555" //"31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
+
+let keypress_time = performance.now();
+let keypress_type = "";
+
+let mistakes = 0; 
+let presses = 0;
+
+// Stats
+let num = 0;
+let combo = 0;
+let highest_combo = 0;
+
+// COOL STUFF
+let RV = (Math.random() * 5) + 50;
+let TV = performance.now();
+let SOV = 0;
+
+function update_canva()
+{
+	// Clear all
+	gm_ctx.clearRect(0,0, game_canvas.width, game_canvas.height);
+
+	//// Background
+
+	// Create gradient
+	const grad = gm_ctx.createRadialGradient(
+		(game_canvas.width/2), // x pos of circle start
+		(game_canvas.height/2), // y pos of circle start
+		200, // radius of circle start
+		(game_canvas.width/2), // x pos of circle end
+		(game_canvas.height/2), // x pos of circle end
+		800 // radius of circle end
+	);
+
+	grad.addColorStop(0,"#cd85c9");
+	grad.addColorStop(1,"#aa7ebc");
+
+	// Fill rectangle with gradient
+	gm_ctx.fillStyle = grad;
+	gm_ctx.fillRect(
+		0,
+		0,
+		game_canvas.width,
+		game_canvas.height
+	);
+
+	gm_ctx.beginPath();
+
+	// Set start-point
+
+	gm_ctx.moveTo(
+		0, 
+		(game_canvas.height/2)
+	);
+
+	const thing = 100;
+	
+	if ( ((performance.now() - TV) / 1000) > 0.05) 
+	{
+		RV = (Math.random() * 5) + 50;
+		TV = performance.now();
+		SOV++;
+	}
+	
+	for (let i = 0; i < thing; i++)
+	{
+		gm_ctx.lineTo(
+			( (i+1)/thing ) * game_canvas.width, 
+			(game_canvas.height/2) + Math.sin( ((i+1) / 2 * thing) + (SOV*0.05)) * RV
+		);
+	}
+
+	gm_ctx.stroke();
+
+	//// GAMEPLAY
+
+	// Box
+
+	let rect_stroke = "#000000";
+	let rect_color = "#8e7575";
+	let combo_color = "#f7f9ff"
+	
+	if ( ((performance.now() - keypress_time) / 1000) < 0.125) 
+	{
+		// SUCCESSFUL PRESS -- PRESS CORRECT KEY
+		if (keypress_type == "success") 
+		{
+			rect_color = "#bcffba", combo_color = "#046101";
+		}
+
+		// FAILURE PRESS -- MESSED UP COMBO
+		else if (keypress_type == "fail") 
+		{
+			rect_color = "#ffb2b2", combo_color = "#6b1111";
+		}
+	} 
+	else 
+	{
+		rect_color = "#8e7575";
+		combo_color = "#063d06";
+	}
+
+	// STROKE
+	gm_ctx.strokeStyle = rect_stroke;
+	gm_ctx.lineWidth = 3;
+
+	// FILL
+	gm_ctx.fillStyle = rect_color;
+
+	// DRAW
+	let size = [100, 120+20];
+
+	gm_ctx.strokeRect(
+		(game_canvas.width/2) - (size[0]/2),
+		(game_canvas.height/2 + 300) - (size[1]/2), 
+		size[0],
+		size[1]
+	);
+
+	gm_ctx.fillRect(
+		(game_canvas.width/2) - (size[0]/2),
+		(game_canvas.height/2 + 300) - (size[1]/2), 
+		size[0],
+		size[1]
+	);
+	
+	// Text
+	gm_ctx.fillStyle = combo_color;
+	gm_ctx.font = '120px Latin Modern Math';
+
+	var textString = pi.substring(num).split("").join(" ");
+
+	gm_ctx.fillText(
+		textString,
+		(game_canvas.width/2) - (gm_ctx.measureText("3").width / 2),
+		(game_canvas.height)/2 - 300
+	);
+
+	gm_ctx.fillStyle = combo_color;
+	gm_ctx.font = '30px Arial';
+
+	// STATS
+	let text = `Combo: ${combo}`;
+	gm_ctx.fillText(
+		text,
+		(game_canvas.width/2) - (gm_ctx.measureText(text).width / 2),
+		(game_canvas.height/2) + 40
+	);
+
+	gm_ctx.fillStyle = combo_color;
+	gm_ctx.font = '30px Arial';
+
+	if (combo >= highest_combo) highest_combo = combo;
+
+	text = `Highest Combo: ${highest_combo}`;
+	gm_ctx.fillText(
+		text,
+		(game_canvas.width/2) - (gm_ctx.measureText(text).width / 2),
+		(game_canvas.height/2)
+	);
+
+	let accuracy = 100;
+	if (presses>0) accuracy = 100 * ( (presses-mistakes) /presses);
+	accuracy = Math.round(accuracy * 100) / 100
+
+	text = `Accuracy: ${accuracy}%`;
+	gm_ctx.fillText(
+		text,
+		(game_canvas.width/2) - (gm_ctx.measureText(text).width / 2),
+		(game_canvas.height/2) - 40
+	);
+
+	// New frame
+	requestAnimationFrame(update_canva);
+}
+
+let lon = [0,1,2,3,4,5,6,7,8,9]
+document.addEventListener("keypress", function(event){
+	// Ignore if not on game page
+	if (game_page.classList.contains("hiddenSection")) return;
+
+	if (lon.includes( Number(event.key) ))
+	{
+		if (event.key == pi[num])
+		{
+			num++;
+			combo++;
+			keypress_type = "success";
+		}
+		else
+		{
+			combo = 0;
+			keypress_type = "fail";
+			mistakes++;
+		}
+
+		presses++;
+		keypress_time = performance.now();
+	}
+	else if (event.key == 'r')
+	{
+		keypress_type = "";
+		mistakes = 0; 
+		presses = 0;
+		num = 0;
+		combo = 0;
+		highest_combo = 0;
+	}
+});
+
+update_canva();
