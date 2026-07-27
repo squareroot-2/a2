@@ -539,6 +539,19 @@ article > button:hover {
 	text-align: center;
 }
 
+#progress {
+	position: absolute;
+	top: 90%;
+	left: 10%;
+	
+	width: 100%;
+	
+	color: white;
+
+	font-size: 2rem;
+	text-align: left;
+}
+
 @keyframes appearAndFade {
 	0% 
 	{
@@ -578,6 +591,26 @@ article > button:hover {
 	animation-name: appearAndFade;
 	animation-duration: 0.5s;
 	animation-fill-mode: forwards;
+}
+
+#game_menu 
+{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	
+	width: 30%;
+	height: 80%;
+
+	border-radius: 5%/3%;
+
+	color: white;
+	background-color: rgba(0, 0, 0, 0.542);
+
+	text-align: center;
+
+	transition: all 1s;
 }
 
 /* Breakpoints */

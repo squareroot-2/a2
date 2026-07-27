@@ -239,8 +239,11 @@ function resetElements()
 
 		if (answer) answer.checked = false;
 	}
+	
+	game_begin = false;
+	game_menu.style = "";
 
-	scorebox.textContent = "Not submitted"
+	scorebox.textContent = "Not submitted";
 }
 
 function showMenuElements(page)
@@ -444,16 +447,19 @@ const gameBeat = document.querySelector(".game_beat");
 
 const pi = "31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
 
+let game_score = 0;
+let game_begin = false;
 let index_pi = 0;
 
-const min_speed = 800;
+const min_speed = 3500;
 let anim_Time = min_speed;	
 gameBeat.style.animationDuration = `${anim_Time/1000}s`;
 
 function game_Update()
 {
 	if (game_page.classList.contains("hiddenSection")) return;
-
+	if (!game_begin) return;
+ 
 	if (!hit) misses++;
 	hit = false;
 
@@ -464,7 +470,7 @@ function game_Update()
 	let key_distance = 10;
 	if (index_pi > 0) key_distance = Math.abs(Number(pi[index_pi]) - Number(pi[index_pi-1]));
 
-	anim_Time = min_speed + (100 * key_distance);
+	anim_Time = min_speed + (75 * key_distance) - (4 * index_pi);
 	gameBeat.style.animationDuration = `${anim_Time/1000}s`;
 	gameBeat.style.opacity = 1;
 
@@ -472,18 +478,26 @@ function game_Update()
 	gameBeat.textContent = pi[index_pi];
 
 	index_pi++;
-	index_pi = index_pi % pi.length;
 
-	gameScoreboard.textContent = `score:${index_pi-misses-1}/${index_pi-1}`;
+	gameScoreboard.textContent = `score:${game_score}, misses:${misses}`;
+	progressTxt.textContent = `${pi.slice(index_pi-	1)}`
 
 	setTimeout(function() 
 	{
 		gameBeat.classList.remove("animation_play");
 	}, anim_Time+50);
 
-	setTimeout(function(){
-		game_Update();
-	}, anim_Time+100);
+	console.log(index_pi);
+	if ( index_pi <= (pi.length) )
+	{
+		setTimeout(function(){
+			game_Update();
+		}, anim_Time+100);
+	}
+	else
+	{
+		gameScoreboard.textContent = "game end: " + misses;
+	}
 }
 
 function remove_button_style()
@@ -493,13 +507,35 @@ function remove_button_style()
 
 const gameScoreboard = document.querySelector("#game_scoreboard");
 const hitIndicator = document.querySelector("#hitIndicator");
+const progressTxt = document.querySelector("#progress");
 
 let misses = 0;
 let hit = true;
 
+const game_menu = document.querySelector("#game_menu");
+
+game_menu.querySelector("button").addEventListener("click", function(){
+	game_menu.style.top = "-100%";
+
+	setTimeout(game_Start, 1000);
+});
+
+function game_Start()
+{
+	if (game_begin) return;
+
+	game_begin = true;
+
+	game_score = 0;
+	misses = 0;
+	index_pi = 0;
+	game_Update();
+
+	hit = false;
+}
+
 lon = ['0','1','2','3','4','5','6','7','8','9'];
 document.addEventListener("keydown", function(event){
-	if (event.key == 'p') game_Update();
 	if (!lon.includes(event.key)) return;
 	if (gameBeat.style.opacity == 0) return;
 
@@ -522,41 +558,64 @@ document.addEventListener("keydown", function(event){
 	
 	let circle_size = circle_detect.clientWidth;
 
-	// GODLY
-	if (distance < (circle_size/45))
+	if (event.key == gameBeat.textContent)
 	{
-		hitIndicate = "GODLY!";
-	}
+		// GODLY
+		if (distance < (circle_size/45))
+		{
+			hitIndicate = "GODLY!";
+			hitIndicator.style.color = "#f7fc99";
+			game_score += 2000;
+		}
 
-	// PERFECT
-	else if (distance < (circle_size/5))
-	{
-		hitIndicate = "PERFECT!";
-	}
+		// PERFECT
+		else if (distance < (circle_size/5))
+		{
+			hitIndicate = "PERFECT!";
+			hitIndicator.style.color = "#ff9ef9";
+			game_score += 1000;
+		}
 
-	// GREAT
-	else if (distance < (circle_size/2))
-	{
-		hitIndicate = "GREAT!";
-	}
+		// GREAT
+		else if (distance < (circle_size/2))
+		{
+			hitIndicate = "GREAT!";
+			hitIndicator.style.color = "#34fe74";
+			game_score += 500;
+		}
 
-	// GOOD
-	else if (distance < (circle_size/2) + (circle_size/4))
-	{
-		hitIndicate = "GOOD!";
-	}
+		// GOOD
+		else if (distance < (circle_size/2) + (circle_size/4))
+		{
+			hitIndicate = "GOOD!";
+			hitIndicator.style.color = "#afffe8";
+			game_score += 250;
+		}
 
-	// BAD
-	else if (distance < circle_size + (circle_size/4))
-	{
-		hitIndicate = "BAD!";
-	}
+		// BAD
+		else if (distance < circle_size + (circle_size/4))
+		{
+			hitIndicate = "BAD!";
+			hitIndicator.style.color = "#ffdf86";
+			game_score += 100;
+		}
 
-	// MISS
+		// MISS
+		else
+		{
+			misses++;
+			hitIndicate = "MISS!";
+			hitIndicator.style.color = "#ffd2d2";
+			game_score -= 100;
+		}
+	}
 	else
 	{
+		// MISS
 		misses++;
 		hitIndicate = "MISS!";
+		hitIndicator.style.color = "#ffd2d2";
+		game_score -= 25;
 	}
 
 	hitIndicator.textContent = hitIndicate;
