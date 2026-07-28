@@ -613,6 +613,27 @@ article > button:hover {
 	transition: all 1s;
 }
 
+#game_menu > h1 {
+	position: absolute;
+	top: 20%;
+
+	width: 100%;
+
+	font-size: 3.0rem;
+}
+
+#game_menu > button {
+	position: absolute;
+	top: 80%;
+
+	transform: translate(-50%, -50%);
+
+	width: 30%;
+	height: 7.5%;
+	
+	font-size: 1.2rem;
+}
+
 /* Breakpoints */
 
 @media (max-width: 800px) {

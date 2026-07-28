@@ -142,13 +142,19 @@ function prepare() {
 				hamburgerElement_button.classList.add('loading_button');
 				hamburgerElement_button.classList.add('hamburger_elements');
 
-				hamburgerElement_button.onclick = function() {
-					showMenuElements(child);
-				};
-
 				hamburger_menu.appendChild(hamburgerElement_button);
 				menu_buttons.push(hamburgerElement_button);
 			}
+
+			// event delegation
+			hamburger_menu.addEventListener('click', function(event) {
+				let button_click = event.target;
+
+				if (!pagebutton_text.includes(button_click.textContent)) return;
+				let button_index = pagebutton_text.indexOf(button_click.textContent);
+
+				showMenuElements(pages[button_index]);
+			});
 
 			hamburger_menu.style.opacity = 0;
 
@@ -451,7 +457,7 @@ let game_score = 0;
 let game_begin = false;
 let index_pi = 0;
 
-const min_speed = 3500;
+const min_speed = 1500;
 let anim_Time = min_speed;	
 gameBeat.style.animationDuration = `${anim_Time/1000}s`;
 
@@ -460,7 +466,7 @@ function game_Update()
 	if (game_page.classList.contains("hiddenSection")) return;
 	if (!game_begin) return;
  
-	if (!hit) misses++;
+	if (!hit && index_pi != 0) misses++;
 	hit = false;
 
 	console.log("New beat going!");
@@ -497,6 +503,7 @@ function game_Update()
 	else
 	{
 		gameScoreboard.textContent = "game end: " + misses;
+		game_begin = false;
 	}
 }
 
@@ -529,8 +536,8 @@ function game_Start()
 	game_score = 0;
 	misses = 0;
 	index_pi = 0;
-	game_Update();
 
+	game_Update();
 	hit = false;
 }
 
