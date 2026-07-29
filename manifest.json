@@ -1,10 +1,10 @@
 { 
-    "name": "WebDev Demo14 PWA",
-    "short_name": "14PWA",
+    "name": "Pi Website",
+    "short_name": "Pi",
     "start_url": "index.html",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#00FF00",
+    "background_color": "#783737",
+    "theme_color": "#783737",
     "icons": [
     { 
         "src": "icons8-pi-64.png",
