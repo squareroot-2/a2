@@ -1,3 +1,4 @@
+// screw off validators sob
 /*jshint esversion: 6 */
 
 // Page selection
@@ -471,7 +472,6 @@ function calcTiming(i)
 	let key_distance = 10;
 	if (index_pi > 0) key_distance = Math.abs(Number(pi[i]) - Number(pi[i-1]));
 	let speed = min_speed + (75 * key_distance) - (4 * i);
-	speed = 750;
 	return speed;
 }
 
