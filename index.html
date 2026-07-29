@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 
-<html>
-
+<html lang="en">
 	<head>
 		<title>Assignment 2</title>
 		<link rel="stylesheet" href="styles.css">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
 		
-		<!-- 
-		<link rel="icon" type="image/png" href="images/favicon.png">
-		-->
+		<link rel="icon" type="image/png" href="images/icons8-pi-64.png">
 		<script src="main.js" defer></script>
 	</head>
 
@@ -23,7 +22,7 @@
 		<section id="front-page">
 			<h1> π </h1>
 			<h2> God of Circles </h2>
-			<p> Foundations of Trigonometry, Transcendental and Irrational. </p>
+			<p class="centered-text"> Foundations of Trigonometry, Transcendental and Irrational. </p>
 		</section>
 		
 		<div id="page-selection">
@@ -223,7 +222,7 @@
 
 					<div>
 						<button id="btnSubmit">Submit Quiz</button>
-						<h3 class="centered-text" id="scorebox">Not submitted</h3>
+						<p class="centered-text" id="scorebox">Not submitted</p>
 					</div>
 				</section>
 			</div>
@@ -289,12 +288,32 @@
 						<div id="game_scoreboard"> GAME START </div>
 						<div id="hitIndicator"> PERFECT! </div>
 						<div id="progress"> </div>
+						<div id="timeLeft"> </div>
 
 						<div id="game_menu"> 
-							<h1> Im gay </h1>
+							<h1> Rhythm Game </h1>
+							<p>
+								-> Type 100 digits of Pi to the beat!	
+								<br>
+								-> Press the number keys when the moving circle overlaps with
+								the stationary one.	
+							</p>
 
 							<button> Start </button>
 						</div>
+					</div>
+
+					<div class="gameButtons">
+						<button>0</button>
+						<button>1</button>
+						<button>2</button>
+						<button>3</button>
+						<button>4</button>
+						<button>5</button>
+						<button>6</button>
+						<button>7</button>
+						<button>8</button>
+						<button>9</button>
 					</div>
 				</section>
 			</div>
@@ -318,14 +337,14 @@
 			</div>
 
 			<div>
-				<p> test test </p>
+				<p> full screen verse </p>
 				<button id="btnFS">Full screen</button>
 				<button id="btnWS">Exit full screen</button>
 			</div>
 
-			<div>
+			<div class="qrCode">
 				<p>Scan me for Mobile App!</p>
-				<img src="images/qrcode_squareroot-2.github.io.png" width="100" height="100">
+				<img src="images/qrcode_squareroot-2.github.io.png" title="QR Code to Mobile App" alt="QR CODE MOBILE" width="100" height="100">
 			</div>
 		</footer>
 	</body>

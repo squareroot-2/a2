@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 // Page selection
 
 const page_selection = document.querySelector("#page-selection");
@@ -5,9 +7,9 @@ const page_selection = document.querySelector("#page-selection");
 const main_page = document.querySelector("#main-page");
 const page_2 = document.querySelector("#page-2");
 const page_3 = document.querySelector("#page-3");
-const game_page = document.querySelector("#page-4")
+const game_page = document.querySelector("#page-4");
 
-const pagebutton_text = ["About", "History", "Notable Formulas", "Games"]
+const pagebutton_text = ["About", "History", "Notable Formulas", "Games"];
 const pages = [main_page, page_2, page_3, game_page];
 
 const loading_page = document.querySelector("#loading-page");
@@ -25,7 +27,7 @@ const random_text = [
 	'Usually, <span id="rainbow-text">pies are made as a circle</span>.',
 	'Still counting <span id="rainbow-text"> digits of pi...</span>',
 	'Face my <span id="rainbow-text"> Irrationality!</span>'
-]
+];
 
 let random_num = Math.floor( Math.random() * random_text.length );
 h2_loading_text.innerHTML = random_text.at(random_num);
@@ -54,6 +56,7 @@ function prepare() {
 
 			loading_page.style.height = "10vh";
 			loading_page.style.width = "45vw";
+			loading_page.style.minHeight = "60px";
 
 			if (window.screen.width < 800)
 			{
@@ -135,7 +138,6 @@ function prepare() {
 			let menu_buttons = [];
 			for (let i = 0; i < pages.length; i++)
 			{
-				let child = pages[i];
 				let hamburgerElement_button = document.createElement("button");
 
 				hamburgerElement_button.textContent = pagebutton_text[i];
@@ -184,7 +186,7 @@ function prepare() {
 					hamburger_menu.style = "";
 					thing = 0;
 				}
-			}
+			};
 
 			hamburger_button.append(hamburger_icon);
 			loading_page.append(hamburger_button);
@@ -225,7 +227,7 @@ function prepare() {
 			}
 		}, 900+1800+500+800);
 	}
-};
+}
 
 function resetElements()
 {
@@ -237,7 +239,7 @@ function resetElements()
 		}
 	}
 
-	for (i = 0; i<questions.childElementCount; i++)
+	for (let i = 0; i<questions.childElementCount; i++)
 	{
 		var answer = document.querySelector(`input[name='q${i+1}']:checked`);
 		
@@ -298,7 +300,7 @@ left_button.addEventListener('click', function()
 
 	history_pageScore.textContent = `Page: ${id+1}/${history_articles.childElementCount}`;
 	history_articles.children[id].classList.remove("hiddenSection");
-})
+});
 
 right_button.addEventListener('click', function()
 {
@@ -317,7 +319,7 @@ right_button.addEventListener('click', function()
 
 	history_pageScore.textContent = `Page: ${id+1}/${history_articles.childElementCount}`;
 	history_articles.children[id].classList.remove("hiddenSection");
-})
+});
 
 // Loading page rainbow text
 const rainbow_text = document.querySelector("#rainbow-text");
@@ -332,7 +334,7 @@ function switch_color()
 }
 
 let colorInterval = null;
-colorInterval = setInterval(switch_color, 10)
+colorInterval = setInterval(switch_color, 10);
 
 // Full screen
 const btnFS=document.querySelector("#btnFS");
@@ -381,13 +383,13 @@ btnSubmit.addEventListener("click",CheckAns);
 
 const scorebox=document.querySelector("#scorebox");
 
-var answers=["3.1415", "Leonard Euler", "1900BC" , "1 inscribed polygon and 1 circumscribed polygon"]
+var answers=["3.1415", "Leonard Euler", "1900BC" , "1 inscribed polygon and 1 circumscribed polygon"];
 function CheckAns()
 {
-	score = 0;
-	not_answered = 0;
+	let score = 0;
+	let not_answered = 0;
 	
-	for (i = 0; i<questions.childElementCount; i++)
+	for (let i = 0; i<questions.childElementCount; i++)
 	{
 		var answer = document.querySelector(`input[name='q${i+1}']:checked`);
 		if (!answer) 
@@ -409,8 +411,8 @@ function CheckAns()
 	}
 
 	if (not_answered == answers.length) scorebox.textContent = 'Answer the questions!';
-	else if (not_answered >= 1) scorebox.textContent = `Score: ${score}/${answers.length}, Empty: ${not_answered}/${answers.length}`
-	else scorebox.textContent = `Score: ${score}/${answers.length}`
+	else if (not_answered >= 1) scorebox.textContent = `Score: ${score}/${answers.length}, Empty: ${not_answered}/${answers.length}`;
+	else scorebox.textContent = `Score: ${score}/${answers.length}`;
 }
 
 // Document 
@@ -431,7 +433,7 @@ document.addEventListener("scroll", function(){
 		let child = visiblePage.children[i];
 		child.style.backgroundPosition = `50% calc(50% + ${window.scrollY}px - ${ (i+1) * 100}vh)`;
 	}
-})
+});
 
 let linkButton1 = document.querySelector("#link-1");
 let linkButton2 = document.querySelector("#link-2");
@@ -457,9 +459,28 @@ let game_score = 0;
 let game_begin = false;
 let index_pi = 0;
 
-const min_speed = 1500;
+// GODLY, PERFECT, GREAT, GOOD, BAD 
+let timings = [0, 0, 0, 0, 0];
+
+const min_speed = 750;
 let anim_Time = min_speed;	
 gameBeat.style.animationDuration = `${anim_Time/1000}s`;
+
+function calcTiming(i)
+{
+	let key_distance = 10;
+	if (index_pi > 0) key_distance = Math.abs(Number(pi[i]) - Number(pi[i-1]));
+	let speed = min_speed + (75 * key_distance) - (4 * i);
+	speed = 750;
+	return speed;
+}
+
+let time_end = 0;
+let chart_duration = 0;
+for (let i = 0; i < pi.length; i++)
+{
+	chart_duration += (calcTiming(i)+100);
+}
 
 function game_Update()
 {
@@ -473,10 +494,8 @@ function game_Update()
 	
 	// Set new animation time
 
-	let key_distance = 10;
-	if (index_pi > 0) key_distance = Math.abs(Number(pi[index_pi]) - Number(pi[index_pi-1]));
-
-	anim_Time = min_speed + (75 * key_distance) - (4 * index_pi);
+	anim_Time = calcTiming(index_pi);
+	
 	gameBeat.style.animationDuration = `${anim_Time/1000}s`;
 	gameBeat.style.opacity = 1;
 
@@ -486,7 +505,7 @@ function game_Update()
 	index_pi++;
 
 	gameScoreboard.textContent = `score:${game_score}, misses:${misses}`;
-	progressTxt.textContent = `${pi.slice(index_pi-	1)}`
+	progressTxt.textContent = `${pi.slice(index_pi-	1)}`;
 
 	setTimeout(function() 
 	{
@@ -494,7 +513,7 @@ function game_Update()
 	}, anim_Time+50);
 
 	console.log(index_pi);
-	if ( index_pi <= (pi.length) )
+	if ( index_pi < (pi.length) )
 	{
 		setTimeout(function(){
 			game_Update();
@@ -502,7 +521,27 @@ function game_Update()
 	}
 	else
 	{
+		let accuracy = 4 * (timings[0] + timings[1]) + 3 * timings[2] + 2 * timings[3] + timings[4];
+		accuracy = accuracy / (4 * pi.length);
+		accuracy = 100 * accuracy;
+		accuracy = Math.floor(accuracy * 100) / 100;
+
 		gameScoreboard.textContent = "game end: " + misses;
+		game_menu.querySelector("p").innerHTML = 
+	
+		`
+		Timings: <br>
+		GODLY: ${timings[0]}, <br>
+		PERFECT: ${timings[1]}, <br>
+		GREAT: ${timings[2]}, <br>
+		GOOD: ${timings[3]}, <br>
+		BAD: ${timings[4]}, <br>
+		MISSES: ${misses} <br>
+
+		Accuracy: ${accuracy}%
+		`;
+
+		game_menu.style.top = "50%";
 		game_begin = false;
 	}
 }
@@ -515,6 +554,7 @@ function remove_button_style()
 const gameScoreboard = document.querySelector("#game_scoreboard");
 const hitIndicator = document.querySelector("#hitIndicator");
 const progressTxt = document.querySelector("#progress");
+const timerTxt = document.querySelector("#timeLeft");
 
 let misses = 0;
 let hit = true;
@@ -527,11 +567,34 @@ game_menu.querySelector("button").addEventListener("click", function(){
 	setTimeout(game_Start, 1000);
 });
 
+function game_Timer()
+{
+	if (!game_begin) return;
+	
+	let timeleft_ms = time_end-performance.now();
+
+	let timeleft = (timeleft_ms)/1000;
+	timeleft = Math.floor(timeleft * 10)/10;
+
+	let percentage = 100*(chart_duration-timeleft_ms)/chart_duration;
+	percentage = Math.floor(percentage * 10)/10;
+
+	if (timeleft < 0) timeleft = 0;
+	if (percentage > 100) percentage = 100;
+
+	timerTxt.textContent = `Time left: ${timeleft}. Chart ${percentage}% completed.`;
+
+	setTimeout(game_Timer, 50);
+}
+
 function game_Start()
 {
 	if (game_begin) return;
 
 	game_begin = true;
+
+	time_end = performance.now() + chart_duration;
+	game_Timer();
 
 	game_score = 0;
 	misses = 0;
@@ -541,14 +604,11 @@ function game_Start()
 	hit = false;
 }
 
-lon = ['0','1','2','3','4','5','6','7','8','9'];
-document.addEventListener("keydown", function(event){
-	if (!lon.includes(event.key)) return;
-	if (gameBeat.style.opacity == 0) return;
-
+function key_press(key)
+{
 	hit = true;
 	gameBeat.style.opacity = 0;
-	circle_detect.textContent = event.key;
+	circle_detect.textContent = key;
 	circle_detect.style.backgroundColor = "red";
 	setTimeout(remove_button_style, 100);
 
@@ -559,19 +619,19 @@ document.addEventListener("keydown", function(event){
 	let cl = Number(clickbeat_Pos.left.slice(0, -2));
 
 	let distance = Math.abs(gl-cl);
-	console.log("Distance: " + distance);
-
+	
 	let hitIndicate = "";
 	
 	let circle_size = circle_detect.clientWidth;
 
-	if (event.key == gameBeat.textContent)
+	if (key == gameBeat.textContent)
 	{
 		// GODLY
 		if (distance < (circle_size/45))
 		{
 			hitIndicate = "GODLY!";
 			hitIndicator.style.color = "#f7fc99";
+			timings[0]++;
 			game_score += 2000;
 		}
 
@@ -580,6 +640,7 @@ document.addEventListener("keydown", function(event){
 		{
 			hitIndicate = "PERFECT!";
 			hitIndicator.style.color = "#ff9ef9";
+			timings[1]++;
 			game_score += 1000;
 		}
 
@@ -588,6 +649,7 @@ document.addEventListener("keydown", function(event){
 		{
 			hitIndicate = "GREAT!";
 			hitIndicator.style.color = "#34fe74";
+			timings[2]++;
 			game_score += 500;
 		}
 
@@ -596,6 +658,7 @@ document.addEventListener("keydown", function(event){
 		{
 			hitIndicate = "GOOD!";
 			hitIndicator.style.color = "#afffe8";
+			timings[3]++;
 			game_score += 250;
 		}
 
@@ -604,6 +667,7 @@ document.addEventListener("keydown", function(event){
 		{
 			hitIndicate = "BAD!";
 			hitIndicator.style.color = "#ffdf86";
+			timings[4]++;
 			game_score += 100;
 		}
 
@@ -630,6 +694,25 @@ document.addEventListener("keydown", function(event){
 
 	setTimeout(function()
 	{
-		hitIndicator.classList.remove("animation_play")
+		hitIndicator.classList.remove("animation_play");
 	}, 600);	
+}
+
+let lon = ['0','1','2','3','4','5','6','7','8','9'];
+document.addEventListener("keydown", function(event){
+	if (!lon.includes(event.key)) return;
+	if (gameBeat.style.opacity == 0) return;
+
+	key_press(event.key);
+});
+
+let game_buttons = document.querySelector(".gameButtons");
+
+game_buttons.addEventListener("click", function(event) {
+	let sender = event.target;
+
+	if (!lon.includes(sender.textContent)) return;
+	if (!game_begin) return;
+
+	key_press(sender.textContent);
 });
