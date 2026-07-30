@@ -456,31 +456,134 @@ const gameBeat = document.querySelector(".game_beat");
 
 const pi = "31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
 
+let gameChart = pi;
+
 let game_score = 0;
 let game_begin = false;
 let index_pi = 0;
 
+let memory_mode = false;
+
+const difficultyChoose = document.querySelector("#difficultySlider");
+
+difficultyChoose.addEventListener("click", function(event)
+{
+	if (event.target.tagName != "BUTTON") return;
+	if (game_begin) return;
+
+	let buttonTxt = event.target.textContent.trim();
+	if (buttonTxt == "Tutorial")
+	{
+		gameChart = pi.slice(0, 10);
+		set_speed = 3000;
+
+		min_speed = 0;
+		kDistIncrease = 0;
+		tTIncrease = 0;
+	}
+	else if (buttonTxt == "Baby")
+	{
+		gameChart = pi.slice(0, 50);
+		set_speed = 2000;
+
+		min_speed = 0;
+		kDistIncrease = 0;
+		tTIncrease = 0;
+	}
+	else if (buttonTxt == "Easy")
+	{
+		gameChart = pi;
+		set_speed = 0;
+
+		min_speed = 1300;
+		kDistIncrease = 100;
+		tTIncrease = 5;
+	}
+	else if (buttonTxt == "Medium")
+	{
+		gameChart = pi;
+		set_speed = 0;
+
+		min_speed = 950;
+		kDistIncrease = 75;
+		tTIncrease = 3;
+	}
+	else if (buttonTxt == "Hard")
+	{
+		gameChart = pi;
+		set_speed = 0;
+
+		min_speed = 600;
+		kDistIncrease = 50;
+		tTIncrease = 2;
+	}
+	else if (buttonTxt == "Harder")
+	{
+		gameChart = pi;
+		set_speed = 0;
+
+		min_speed = 300;
+		kDistIncrease = 25;
+		tTIncrease = 3;
+	}
+	else if (buttonTxt == "How?")
+	{
+		gameChart = pi;
+		set_speed = 25;
+
+		min_speed = 0;
+		kDistIncrease = 0;
+		tTIncrease = 0;
+	}
+	else if (buttonTxt == "Memory Mode")
+	{
+		memory_mode = !memory_mode;
+	}
+
+	difficultyChoose.querySelector("p").textContent = "Selected difficulty: " + buttonTxt;
+
+	if (memory_mode)
+	{
+		difficultyChoose.querySelector("p").textContent = difficultyChoose.querySelector("p").textContent + ", Memory: On";
+	}
+});
+
 // GODLY, PERFECT, GREAT, GOOD, BAD 
 let timings = [0, 0, 0, 0, 0];
 
-const min_speed = 750;
-let anim_Time = min_speed;	
+let min_speed = 1500;
+let set_speed = 0;
+
+let kDistIncrease = 75;
+let tTIncrease = 4;
+
+let anim_Time = min_speed;
 gameBeat.style.animationDuration = `${anim_Time/1000}s`;
 
 function calcTiming(i)
 {
 	let key_distance = 10;
-	if (index_pi > 0) key_distance = Math.abs(Number(pi[i]) - Number(pi[i-1]));
-	let speed = min_speed + (75 * key_distance) - (4 * i);
+	if (index_pi > 0) key_distance = Math.abs(Number(gameChart[i]) - Number(gameChart[i-1]));
+
+	let speed = min_speed + (kDistIncrease * key_distance) - (tTIncrease * i);
+
+	if (set_speed != 0) speed = set_speed;
+
 	return speed;
 }
 
 let time_end = 0;
 let chart_duration = 0;
-for (let i = 0; i < pi.length; i++)
+function calcChartDur()
 {
-	chart_duration += (calcTiming(i)+100);
+	chart_duration = 0;
+	for (let i = 0; i < gameChart.length; i++)
+	{
+		chart_duration += (calcTiming(i)+100);
+	}
+	console.log(chart_duration);
 }
+calcChartDur();
 
 function game_Update()
 {
@@ -490,8 +593,6 @@ function game_Update()
 	if (!hit && index_pi != 0) misses++;
 	hit = false;
 
-	console.log("New beat going!");
-	
 	// Set new animation time
 
 	anim_Time = calcTiming(index_pi);
@@ -500,20 +601,21 @@ function game_Update()
 	gameBeat.style.opacity = 1;
 
 	gameBeat.classList.add("animation_play");
-	gameBeat.textContent = pi[index_pi];
+	if (!memory_mode) gameBeat.textContent = gameChart[index_pi];
+	else gameBeat.textContent = "?";
 
 	index_pi++;
 
 	gameScoreboard.textContent = `score:${game_score}, misses:${misses}`;
-	progressTxt.textContent = `${pi.slice(index_pi-	1)}`;
+	if (!memory_mode) progressTxt.textContent = `${gameChart.slice(index_pi-	1)}`;
 
 	setTimeout(function() 
 	{
 		gameBeat.classList.remove("animation_play");
-	}, anim_Time+50);
+	}, anim_Time + 50);
 
 	console.log(index_pi);
-	if ( index_pi < (pi.length) )
+	if ( index_pi < (gameChart.length) )
 	{
 		setTimeout(function(){
 			game_Update();
@@ -521,28 +623,31 @@ function game_Update()
 	}
 	else
 	{
-		let accuracy = 4 * (timings[0] + timings[1]) + 3 * timings[2] + 2 * timings[3] + timings[4];
-		accuracy = accuracy / (4 * pi.length);
-		accuracy = 100 * accuracy;
-		accuracy = Math.floor(accuracy * 100) / 100;
+		setTimeout(function()
+		{
+			let accuracy = 4 * (timings[0] + timings[1]) + 3 * timings[2] + 2 * timings[3] + timings[4];
+			accuracy = accuracy / (4 * gameChart.length);
+			accuracy = 100 * accuracy;
+			accuracy = Math.floor(accuracy * 100) / 100;
 
-		gameScoreboard.textContent = "game end: " + misses;
-		game_menu.querySelector("p").innerHTML = 
-	
-		`
-		Timings: <br>
-		GODLY: ${timings[0]}, <br>
-		PERFECT: ${timings[1]}, <br>
-		GREAT: ${timings[2]}, <br>
-		GOOD: ${timings[3]}, <br>
-		BAD: ${timings[4]}, <br>
-		MISSES: ${misses} <br>
+			gameScoreboard.textContent = "game end: " + misses;
+			game_menu.querySelector("p").innerHTML = 
+		
+			`
+			Timings: <br>
+			GODLY: ${timings[0]}, <br>
+			PERFECT: ${timings[1]}, <br>
+			GREAT: ${timings[2]}, <br>
+			GOOD: ${timings[3]}, <br>
+			BAD: ${timings[4]}, <br>
+			MISSES: ${misses} <br>
 
-		Accuracy: ${accuracy}%
-		`;
+			Accuracy: ${accuracy}%
+			`;
 
-		game_menu.style.top = "50%";
-		game_begin = false;
+			game_menu.style.top = "50%";
+			game_begin = false;
+		}, anim_Time+10);
 	}
 }
 
@@ -593,12 +698,17 @@ function game_Start()
 
 	game_begin = true;
 
-	time_end = performance.now() + chart_duration;
-	game_Timer();
-
 	game_score = 0;
 	misses = 0;
 	index_pi = 0;
+
+	timings = [0,0,0,0,0];
+
+	calcChartDur();
+	console.log(chart_duration);
+
+	time_end = performance.now() + chart_duration;
+	game_Timer();
 
 	game_Update();
 	hit = false;

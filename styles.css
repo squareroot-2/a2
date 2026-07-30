@@ -447,6 +447,57 @@ article > button:hover {
 
 /* GAME */
 
+#instructionArticle 
+{
+	display: flex;
+	flex-direction: column;
+
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+
+	padding: 5px;
+}
+
+#difficultySlider 
+{
+	display: flex;
+	flex-direction: column;
+
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+
+	padding: 5px;
+}
+
+#difficultySlider p, #difficultySlider h1 {
+	color: white;
+}
+
+#difficultySlider > button 
+{
+	color:#033457;
+	background-color: #c8e8ff;
+	border: 3px solid #f2f2ff;
+
+	width: 30%;
+	height: auto;
+	padding: 3px;
+
+	transition: all 0.2s;
+}
+
+#difficultySlider > button:hover
+{
+	transform: scale(1.15);
+}
+
+#gameInstruction {
+	width: 80%;
+	height: auto;
+}
+
 #gamebox {
 	background-color: rgb(50, 83, 96);
 	border: 3px solid black;
@@ -461,6 +512,8 @@ article > button:hover {
 	*/
 
 	overflow: hidden;
+
+	user-select: none;
 }
 
 #click_input {
@@ -475,9 +528,9 @@ article > button:hover {
 	font-size: 3rem;
 
 	color: white;
-	background-color: #1c5178;
+	background-color: #796816;
 
-	border: 3px solid rgb(188, 255, 237);
+	border: 3px solid rgb(245, 213, 117);
 	border-radius: 100%;
 
 	display: flex;
