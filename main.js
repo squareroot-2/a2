@@ -15,7 +15,8 @@ const pages = [main_page, page_2, page_3, game_page];
 
 const loading_page = document.querySelector("#loading-page");
 let loaded = false;
-loading_page.addEventListener("click", prepare);
+
+loading_page.addEventListener('click', prepare);
 
 const footer = document.querySelector("footer");
 
@@ -37,7 +38,7 @@ function prepare() {
 	if (!loaded)
 	{
 		loaded = true;
-		
+
 		clearInterval(colorInterval);
 		
 		rainbow_text.style.color = "inherit";
@@ -210,10 +211,13 @@ function prepare() {
 			let menu_icon_2 = menu_icon.cloneNode(true);
 			menu_icon_2.style.backgroundImage = "url(images/scrollup.png)";
 			menu_button_6.appendChild(menu_icon_2);
-
 		}, 900+1800);
 
 		setTimeout(function(){
+			let menuAudio = new Audio('audio/TTYL.mp3');
+			menuAudio.loop = true;
+			menuAudio.play();
+
 			for (const child of loading_page.children) 
 			{
 				child.style.transition = "opacity 0.8s";
