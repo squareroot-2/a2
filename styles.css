@@ -22,7 +22,15 @@ html, body {
 	overflow-x: hidden;
 }
 
-audio {
+a {
+	color: rgb(123, 123, 237);
+}
+
+a:hover {
+	color: rgb(255, 127, 195);
+}
+
+.h2_hidden {
 	display: none;
 }
 
@@ -130,6 +138,8 @@ section {
 	display: block;
 
 	width: 23%;
+
+	font-size: 0.9rem;
 }
 
 .hamburger_menu {
