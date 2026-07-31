@@ -33,7 +33,22 @@ const random_text = [
 
 let random_num = Math.floor( Math.random() * random_text.length );
 h2_loading_text.innerHTML = random_text.at(random_num);
- 
+
+let menuAudio = new Audio('audio/TTYL.mp3');
+
+const muteButton = document.querySelector("#btnMS");
+
+muteButton.addEventListener('click', function() {
+	if (menuAudio.paused)
+	{
+		menuAudio.play();
+	}
+	else
+	{
+		menuAudio.pause();
+	}
+});
+
 function prepare() {
 	if (!loaded)
 	{
@@ -214,7 +229,6 @@ function prepare() {
 		}, 900+1800);
 
 		setTimeout(function(){
-			let menuAudio = new Audio('audio/TTYL.mp3');
 			menuAudio.loop = true;
 			menuAudio.play();
 
@@ -484,7 +498,7 @@ gameBeat.style.animationDuration = `${anim_Time/1000}s`;
 function calcTiming(i)
 {
 	let key_distance = 10;
-	if (index_pi > 0) key_distance = Math.abs(Number(gameChart[i]) - Number(gameChart[i-1]));
+	if (index_pi > 0 && gameChart[i] && gameChart[i-1]) key_distance = Math.abs(Number(gameChart[i]) - Number(gameChart[i-1]));
 
 	let speed = min_speed + (kDistIncrease * key_distance) - (tTIncrease * i);
 
@@ -506,10 +520,13 @@ function calcChartDur()
 }
 calcChartDur();
 
+let beating = false;
 function game_Update()
 {
 	if (game_page.classList.contains("hiddenSection")) return;
 	if (!game_begin) return;
+
+	beating = true;
  
 	if (!hit && index_pi != 0) misses++;
 	hit = false;
@@ -534,9 +551,9 @@ function game_Update()
 	setTimeout(function() 
 	{
 		gameBeat.classList.remove("animation_play");
+		beating = false;
 	}, anim_Time + 50);
 
-	console.log(index_pi);
 	if ( index_pi < (gameChart.length) )
 	{
 		setTimeout(function(){
@@ -589,6 +606,7 @@ let hit = true;
 const game_menu = document.querySelector("#game_menu");
 
 game_menu.querySelector("button").addEventListener("click", function(){
+	if (beating) return;
 	game_menu.style.top = "-100%";
 
 	setTimeout(game_Start, 1000);
@@ -839,3 +857,13 @@ function difficultySelect(buttonTxt)
 	if (memory_mode) difficultyChoose.querySelector("p").textContent = difficultyChoose.querySelector("p").textContent + ", Memory: On";
 }
 difficultySelect("Medium");	
+
+const restartGameBtn = document.querySelector("#restartGameBtn");
+
+restartGameBtn.addEventListener('click', function() {
+	if (game_begin)
+	{
+		game_begin = false;
+		game_menu.style = "";
+	}
+});
