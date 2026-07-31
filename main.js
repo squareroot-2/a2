@@ -463,90 +463,7 @@ let game_begin = false;
 let index_pi = 0;
 
 let memory_mode = false;
-
-const difficultyChoose = document.querySelector("#difficultySlider");
-
-difficultyChoose.addEventListener("click", function(event)
-{
-	if (event.target.tagName != "BUTTON") return;
-	if (game_begin) return;
-
-	let buttonTxt = event.target.textContent.trim();
-	if (buttonTxt == "Tutorial")
-	{
-		gameChart = pi.slice(0, 10);
-		set_speed = 3000;
-
-		min_speed = 0;
-		kDistIncrease = 0;
-		tTIncrease = 0;
-	}
-	else if (buttonTxt == "Baby")
-	{
-		gameChart = pi.slice(0, 50);
-		set_speed = 2000;
-
-		min_speed = 0;
-		kDistIncrease = 0;
-		tTIncrease = 0;
-	}
-	else if (buttonTxt == "Easy")
-	{
-		gameChart = pi;
-		set_speed = 0;
-
-		min_speed = 1300;
-		kDistIncrease = 100;
-		tTIncrease = 5;
-	}
-	else if (buttonTxt == "Medium")
-	{
-		gameChart = pi;
-		set_speed = 0;
-
-		min_speed = 950;
-		kDistIncrease = 75;
-		tTIncrease = 3;
-	}
-	else if (buttonTxt == "Hard")
-	{
-		gameChart = pi;
-		set_speed = 0;
-
-		min_speed = 600;
-		kDistIncrease = 50;
-		tTIncrease = 2;
-	}
-	else if (buttonTxt == "Harder")
-	{
-		gameChart = pi;
-		set_speed = 0;
-
-		min_speed = 300;
-		kDistIncrease = 25;
-		tTIncrease = 3;
-	}
-	else if (buttonTxt == "How?")
-	{
-		gameChart = pi;
-		set_speed = 25;
-
-		min_speed = 0;
-		kDistIncrease = 0;
-		tTIncrease = 0;
-	}
-	else if (buttonTxt == "Memory Mode")
-	{
-		memory_mode = !memory_mode;
-	}
-
-	difficultyChoose.querySelector("p").textContent = "Selected difficulty: " + buttonTxt;
-
-	if (memory_mode)
-	{
-		difficultyChoose.querySelector("p").textContent = difficultyChoose.querySelector("p").textContent + ", Memory: On";
-	}
-});
+let difficulty = "";
 
 // GODLY, PERFECT, GREAT, GOOD, BAD 
 let timings = [0, 0, 0, 0, 0];
@@ -607,7 +524,8 @@ function game_Update()
 	index_pi++;
 
 	gameScoreboard.textContent = `score:${game_score}, misses:${misses}`;
-	if (!memory_mode) progressTxt.textContent = `${gameChart.slice(index_pi-	1)}`;
+	if (!memory_mode) progressTxt.textContent = `${gameChart.slice(index_pi-1)}`;
+	else progressTxt.textContent = `Digit: ${index_pi}`
 
 	setTimeout(function() 
 	{
@@ -704,9 +622,6 @@ function game_Start()
 
 	timings = [0,0,0,0,0];
 
-	calcChartDur();
-	console.log(chart_duration);
-
 	time_end = performance.now() + chart_duration;
 	game_Timer();
 
@@ -734,7 +649,8 @@ function key_press(key)
 	
 	let circle_size = circle_detect.clientWidth;
 
-	if (key == gameBeat.textContent)
+	console.log(index_pi);
+	if (key == String(gameChart[index_pi-1]))
 	{
 		// GODLY
 		if (distance < (circle_size/45))
@@ -826,3 +742,96 @@ game_buttons.addEventListener("click", function(event) {
 
 	key_press(sender.textContent);
 });
+
+const difficultyChoose = document.querySelector("#difficultySlider");
+
+difficultyChoose.addEventListener("click", function(event)
+{
+	if (event.target.tagName != "BUTTON") return;
+	if (game_begin) return;
+
+	let buttonTxt = event.target.textContent.trim();
+	difficultySelect(buttonTxt);
+	calcChartDur();
+});
+
+function difficultySelect(buttonTxt)
+{
+	if (buttonTxt == "Memory Mode")
+	{
+		memory_mode = !memory_mode;
+	}
+	else
+	{
+		if (buttonTxt == "Tutorial")
+		{
+			gameChart = pi.slice(0, 10);
+			set_speed = 3000;
+
+			min_speed = 0;
+			kDistIncrease = 0;
+			tTIncrease = 0;
+		}
+		else if (buttonTxt == "Baby")
+		{
+			gameChart = pi.slice(0, 50);
+			set_speed = 2000;
+
+			min_speed = 0;
+			kDistIncrease = 0;
+			tTIncrease = 0;
+		}
+		else if (buttonTxt == "Easy")
+		{
+			gameChart = pi;
+			set_speed = 0;
+
+			min_speed = 1300;
+			kDistIncrease = 100;
+			tTIncrease = 5;
+		}
+		else if (buttonTxt == "Medium")
+		{
+			gameChart = pi;
+			set_speed = 0;
+
+			min_speed = 950;
+			kDistIncrease = 75;
+			tTIncrease = 3;
+		}
+		else if (buttonTxt == "Hard")
+		{
+			gameChart = pi;
+			set_speed = 0;
+
+			min_speed = 600;
+			kDistIncrease = 50;
+			tTIncrease = 2;
+		}
+		else if (buttonTxt == "Harder")
+		{
+			gameChart = pi;
+			set_speed = 0;
+
+			min_speed = 300;
+			kDistIncrease = 25;
+			tTIncrease = 3;
+		}
+		else if (buttonTxt == "How?")
+		{
+			gameChart = pi;
+			set_speed = 25;
+
+			min_speed = 0;
+			kDistIncrease = 0;
+			tTIncrease = 0;
+		}
+		
+		difficulty = buttonTxt;
+	}
+
+	difficultyChoose.querySelector("p").textContent = "Selected difficulty: " + difficulty;
+
+	if (memory_mode) difficultyChoose.querySelector("p").textContent = difficultyChoose.querySelector("p").textContent + ", Memory: On";
+}
+difficultySelect("Medium");	
